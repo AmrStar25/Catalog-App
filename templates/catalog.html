@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+  </script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+</head>
+
+<body style="margin: 0; background-color: #a6a6a6;"> 
+<header style="display: flex; flex-wrap: wrap; font-size: 3em; background-color:#000080;">
+
+
+<a href="{{url_for('showMaster')}}" style="color: #ff6600;display: inline-block;width: 50%;box-sizing: border-box;padding-left: 2em; word-wrap: break-word;">Catalog App</a>
+
+{% if 'username' not in session %}
+<a href="{{url_for('Login')}}" id="Login" style="color: #ff6600;  display: inline-block;width: 50%;box-sizing: border-box;padding-right: 2em; text-align: right;">Login</a>
+{% else %}
+<a href="{{url_for('disconnect')}}" id="Logout" style="color: #ff6600;display: inline-block;width: 50%;box-sizing: border-box;padding-right: 2em; text-align: right;">Logout</a>
+{% endif %}
+
+</header> 
+<main style="background-color:#ffffff; padding: 1em;margin-left: 6em;margin-right: 6em;margin-top: 1em;display: flex;flex-wrap: wrap;">
+  
+  <table width="20%">
+    <tr>
+      <th style="text-align: left;"><h1>Categories</h1></th>
+    </tr>
+    {% for Cat in Categ %}
+    <tr>
+      <td>
+        <a href="{{url_for('Catitems',Categ=Cat.name)}}" style="font-size: 1.3em;color:#ff6600; ">{{Cat.name}}</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  
+  
+  <table width="50%">
+  {% if 'username' in session %}
+    <tr>
+      <td>
+        <a href="{{url_for('Additem')}}" style="font-size: 1.3em;color:#ff6600; ">Add item</a>
+      </td>
+    </tr>
+    {% else %}
+    <tr>
+      <td style="padding:  0.7em;">
+        
+      </td>
+    </tr>
+    {% endif %}
+    <tr>
+       <th style="text-align: left;"><h1 style="margin-top: 0;margin-bottom: 0.5em;">Latest Items</h1></th>
+    </tr>
+    {% for Latest in Lat %}
+    <tr>
+       <td>
+        <a href="{{url_for('Itemdesc',Categ=Latest.category.name,Sitem=Latest.name)}}" style="font-size: 1.3em;color:#ff6600; ">{{Latest.name}}</a>
+        <span style="color: #a6a6a6;">({{Latest.category.name}})</span>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  
+ 
+<div class = 'flash' style="box-sizing: border-box;width: 100%;margin-top: 3em;">
+          {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+</div>
+
+</main>
+</body>
+
+</html>

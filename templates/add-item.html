@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+  </script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+</head>
+
+<body style="margin: 0; background-color: #a6a6a6;"> 
+<header style="display: flex; flex-wrap: wrap; font-size: 3em; background-color:#000080;color: #ff6600;">
+
+
+<a href="{{url_for('showMaster')}}" style="color: #ff6600;display: inline-block;width: 50%;box-sizing: border-box;padding-left: 2em; word-wrap: break-word;">Catalog App</a>
+
+{% if 'username' not in session %}
+<a href="{{url_for('Login')}}" id="Login" style="color: #ff6600;  display: inline-block;width: 50%;box-sizing: border-box;padding-right: 2em; text-align: right;">Login</a>
+{% else %}
+<a href="{{url_for('disconnect')}}" id="Logout" style="color: #ff6600;display: inline-block;width: 50%;box-sizing: border-box;padding-right: 2em; text-align: right;">Logout</a>
+{% endif %}
+
+</header> 
+<main style="background-color:#ffffff; padding: 1em;margin-left: 6em;margin-right: 6em;margin-top: 1em;">
+  
+  <h1>Add Item</h1>
+  <form method="POST" action="{{url_for('Additem')}}">
+  <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+    <label>Title</label><br>
+    <input type="text" name="name" placeholder="Write item name"><br><br>
+    <label>Description</label><br>
+    <input type="text" name="des" placeholder="Write item description"><br><br>
+    <label>Category</label><br>
+    <select name="Category">
+    {% for Cat in CatAll %}
+    <option value="{{Cat.id}}">
+        {{Cat.name}}
+    </option>
+      {% endfor %}
+    </select><br><br>
+    <input type="submit" name="submit" value="Add">
+  </form>
+</main>
+</body>
+
+</html>

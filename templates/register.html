@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+</head>
+<body style="margin: 0; background-color: #a6a6a6;"> 
+<header style="display: flex; flex-wrap: wrap; font-size: 3em; background-color:#000080;">
+	<a href="{{url_for('showMaster')}}" style="color: #ff6600;display: inline-block;width: 50%;box-sizing: border-box;padding-left: 2em; word-wrap: break-word;">Catalog App</a>
+</header> 
+<main style="margin-left: 6em; background-color:#ffffff; margin-top: 1em; padding: 1em; margin-right: 6em;">
+<form method="POST" action="{{url_for('Register')}}" class="reg">
+<input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+<label style="display: inline-block;width: 80px;">UserName</label>
+{% if form %}
+<input type="text" name="UserName" value="{{form.UserName}}" placeholder="Write your UserName" required><br><br>
+{% else %}
+<input type="text" name="UserName" placeholder="Write your UserName" required><br><br>
+{% endif %}
+ <label style="display: inline-block;width: 80px;">Email</label>
+{% if form %}
+ <input type="text" name="email"  value="{{form.email}}" placeholder="Write your email" required><br><br>
+ {% else %}
+ <input type="text" name="email" placeholder="Write your email" required><br><br>
+ {% endif %}
+ <label style="display: inline-block;width: 80px;">Password</label>
+ <input type="Password" name="Password" placeholder="Write your password" required><br><br>
+ <label style="display: inline-block;width: 80px;">Confirm Password</label>
+ <input type="Password" name="CPassword" placeholder="Confirm your password" required><br><br> 
+ <input type="submit" id="submit" value="Sign in" style="height: 40px; width: 240px;"><br>
+</form>
+<div class = 'flash'>
+          {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+<script type="text/javascript">
+	$(".reg").on("submit",function(e){
+		if($(".reg").find("input[name='Password']").val() != $(".reg").find("input[name='CPassword']").val()){
+			alert("Not identical password");
+			e.preventDefault();
+		}
+	});
+</script>
+</main>
+</body>
+
+</html>
